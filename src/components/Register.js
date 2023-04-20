@@ -11,17 +11,58 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "../redux/userSlice";
 
+const buttonStyleBlack = {
+  color: "white",
+  backgroundColor: "black",
+  border: "1px solid transparent",
+  mt: 3,
+  mb: 2,
+  ":hover": {
+    backgroundColor: "transparent",
+    borderColor: "black",
+    color: "black",
+    mt: 3,
+    mb: 2,
+  },
+};
+const buttonStyleWhite = {
+  color: "black",
+  backgroundColor: "transparent",
+  border: "1px solid black",
+  ":hover": {
+    backgroundColor: "transparent",
+    borderColor: "black",
+    color: "black",
+  },
+};
 
 export default function Register() {
 
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user)
+
   const handleSubmit = (event) => {
+
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
+      firstname: data.get("firstName"),
+      lastname: data.get("lastName"),
+      username: data.get("username"),
       email: data.get("email"),
       password: data.get("password"),
     });
+
+    dispatch(registerUser({
+      firstname: data.get("firstName"),
+      lastname: data.get("lastName"),
+      username: data.get("username"),
+      email: data.get("email"),
+      password: data.get("password"),
+    }))
   };
 
   return (
@@ -65,6 +106,16 @@ export default function Register() {
               />
             </Grid>
             <Grid item xs={12}>
+              <TextField  
+                required
+                fullWidth
+                id="username"
+                label="User Name"
+                name="username"
+                autoComplete="username"
+              />
+            </Grid>
+            <Grid item xs={12}>
               <TextField
                 required
                 fullWidth
@@ -85,24 +136,19 @@ export default function Register() {
                 autoComplete="new-password"
               />
             </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              />
-            </Grid>
+
           </Grid>
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={buttonStyleBlack}
           >
             Sign Up
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/login" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>

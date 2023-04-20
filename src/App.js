@@ -4,10 +4,11 @@ import Register from "./components/Register";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import GlobalLayout from "./layouts/GlobalLayout";
 import ErrorPage from "./components/ErrorPage";
-import LoginSide from "./components/LoginSide";
+import Login from "./components/Login";
 import Album from "./components/Products";
 import Blog from "./components/About";
 import RecipeReviewCard from "./components/About";
+
 
 function App() {
   const router = createBrowserRouter([
@@ -26,7 +27,7 @@ function App() {
         },
         {
           path: "login", // The path to match
-          element: <LoginSide />,
+          element: <Login />,
         },
         {
           path: "products", // The path to match

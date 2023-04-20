@@ -14,13 +14,32 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import useScrollTrigger from "@mui/material/useScrollTrigger";
+import Slide from "@mui/material/Slide";
 import { Link } from "react-router-dom";
 import Home from "./Home";
+import AdbIcon from "@mui/icons-material/Adb";
 
 const drawerWidth = 240;
-const navItems = ["Home", "About", "Contact", "Products", "Register", "Login"];
+const navItems = ["Home", "Products", "Register", "Login"];
+
+function HideOnScroll(props) {
+  const { children, window } = props;
+  // Note that you normally won't need to set the window ref as useScrollTrigger
+  const trigger = useScrollTrigger({
+    target: window ? window() : undefined,
+  });
+
+  return (
+    <Slide appear={false} direction="down" in={!trigger}>
+      {children}
+    </Slide>
+  );
+}
+
 
 function DrawerAppBar(props) {
+
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -28,11 +47,13 @@ function DrawerAppBar(props) {
     setMobileOpen((prevState) => !prevState);
   };
 
+
+
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
+      {/* <Typography variant="h6" sx={{ my: 2 }}>
         MUI
-      </Typography>
+      </Typography> */}
       <Divider />
       <List>
         {navItems.map((item) => (
@@ -57,36 +78,63 @@ function DrawerAppBar(props) {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar component="nav">
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-          >
-            MUI
-          </Typography>
-          <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            {navItems.map((item) => {
-              const link = item === "Home" ? "" : item.toLowerCase();
-              return (
-                <Link to={`/${link}`} key={item} style={{textDecoration: 'none'}}>
-                  <Button sx={{color: '#fff'}} variant="outlined">{item}</Button>
-                </Link>
-              )
-            })}
-          </Box>
-        </Toolbar>
-      </AppBar>
+      <HideOnScroll {...props}>
+        <AppBar
+          component="nav"
+          color="primary"
+          sx={{
+            backgroundImage:"linear-gradient(90deg, rgba(113,166,81,1) 27%, rgba(221,161,94,1) 100%)",
+          }}
+        >
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { sm: "none" } }}
+            >
+              <MenuIcon />
+            </IconButton>
+            {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
+
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            >
+              <Box
+                component="img"
+                sx={{
+                  height: { xs: "48px", md: "64px" },
+                  display: { xs: "none", md: "flex" },
+                  mr: 1,
+                  margin: 2,
+                  objectFit: "contain",
+                }}
+                alt="The house from the offer."
+                src="/image-assets/lucky-shrub-white.png"
+              />
+            </Typography>
+            <Box sx={{ display: { xs: "none", sm: "block" } }}>
+              {navItems.map((item) => {
+                const link = item === "Home" ? "" : item.toLowerCase();
+                return (
+                  <Link
+                    to={`/${link}`}
+                    key={item}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <Button sx={{ color: "#000000" }} variant="text">
+                      {item}
+                    </Button>
+                  </Link>
+                );
+              })}
+            </Box>
+          </Toolbar>
+        </AppBar>
+      </HideOnScroll>
       <Box component="nav">
         <Drawer
           container={container}

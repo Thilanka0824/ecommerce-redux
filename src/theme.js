@@ -2,13 +2,13 @@ import { red } from "@mui/material/colors";
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
-  pallette: {
-    mode: "light",
+  palette: {
+    mode: "dark",
     primary: {
-      main: "#89f54d",
+      main: "#bb4df5",
     },
     secondary: {
-      main: "#bb4df5",
+      main: "#89f54d",
     },
     error: {
       main: red.A400,
@@ -16,3 +16,5 @@ const theme = createTheme({
   },
 });
 export default theme;
+
+
