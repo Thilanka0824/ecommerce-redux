@@ -17,11 +17,14 @@ import Button from "@mui/material/Button";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import Slide from "@mui/material/Slide";
 import { Link } from "react-router-dom";
-import Home from "./Home";
-import AdbIcon from "@mui/icons-material/Adb";
+import KeepMountedModal from "./KeepMountedModal";
+// import {ThemeToggle} from "../components/ThemeToggle";
+import { useMediaQuery } from "@mui/material";
+import KeepMountedModalRegister from "./KeepMountedModalRegister";
 
 const drawerWidth = 240;
-const navItems = ["Home", "Products", "Register", "Login"];
+const navItems = ["Home", "Design Packages"];
+const navItemsDrawer = ["Home", "Design Packages", "Register", "Login"];
 
 function HideOnScroll(props) {
   const { children, window } = props;
@@ -37,9 +40,7 @@ function HideOnScroll(props) {
   );
 }
 
-
 function DrawerAppBar(props) {
-
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -47,23 +48,25 @@ function DrawerAppBar(props) {
     setMobileOpen((prevState) => !prevState);
   };
 
-
-
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       {/* <Typography variant="h6" sx={{ my: 2 }}>
         MUI
       </Typography> */}
       <Divider />
+
       <List>
-        {navItems.map((item) => (
+        {navItemsDrawer.map((item) => (
           <ListItem key={item} disablePadding>
             <Link
               to={`/${item === "Home" ? "" : item.toLowerCase()}`}
-              style={{ textDecoration: "none", width: "100%" }}
+              style={{
+                textDecoration: "none",
+                width: "100%",
+              }}
             >
               <ListItemButton sx={{ textAlign: "center" }}>
-                <ListItemText primary={item} />
+                <ListItemText primary={item} sx={{ color: "black" }} />
               </ListItemButton>
             </Link>
           </ListItem>
@@ -75,27 +78,31 @@ function DrawerAppBar(props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
+  const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("sm")); // theme is a prop that is passed in from the parent component. this is how we access it. breakpoints is a property of theme. up is a method of breakpoints. sm is a parameter of up.
+
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", marginTop: -6 }}>
       <CssBaseline />
       <HideOnScroll {...props}>
         <AppBar
           component="nav"
           color="primary"
           sx={{
-            backgroundImage:"linear-gradient(90deg, rgba(113,166,81,1) 27%, rgba(221,161,94,1) 100%)",
+            backgroundColor: "#ffffff",
           }}
         >
           <Toolbar>
             <IconButton
-              color="inherit"
+              color="black"
               aria-label="open drawer"
               edge="start"
               onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { sm: "none" } }}
+              sx={{ mr: 2, display: { sm: "none" } }} // this is for the hamburger menu. this line determines when it shows up
             >
               <MenuIcon />
             </IconButton>
+            {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+
             {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
 
             <Typography
@@ -108,14 +115,17 @@ function DrawerAppBar(props) {
                 sx={{
                   height: { xs: "48px", md: "64px" },
                   display: { xs: "none", md: "flex" },
-                  mr: 1,
+                  mr: 1, //mr = margin-right
                   margin: 2,
-                  objectFit: "contain",
+                  objectFit: "contain", // this
                 }}
                 alt="The house from the offer."
-                src="/image-assets/lucky-shrub-white.png"
+                src="/image-assets/lucky-shrub-green.png"
               />
             </Typography>
+            {/* Added new code for theme switch */}
+            {/* <ThemeToggle/> */}
+
             <Box sx={{ display: { xs: "none", sm: "block" } }}>
               {navItems.map((item) => {
                 const link = item === "Home" ? "" : item.toLowerCase();
@@ -125,13 +135,30 @@ function DrawerAppBar(props) {
                     key={item}
                     style={{ textDecoration: "none" }}
                   >
-                    <Button sx={{ color: "#000000" }} variant="text">
+                    <Button
+                      sx={{
+                        color: "#243010",
+                        fontSize: "large",
+                        fontFamily: "sans-serif",
+                      }}
+                      variant="text"
+                    >
                       {item}
                     </Button>
                   </Link>
                 );
               })}
             </Box>
+            {isDesktop && (
+              <Link style={{ textDecoration: "none" }}>
+                <KeepMountedModal /> {/* this is the login button */}
+              </Link>
+            )}
+            {isDesktop && (
+              <Link style={{ textDecoration: "none" }}>
+                <KeepMountedModalRegister />
+              </Link>
+            )}
           </Toolbar>
         </AppBar>
       </HideOnScroll>
@@ -161,7 +188,5 @@ function DrawerAppBar(props) {
     </Box>
   );
 }
-
-
 
 export default DrawerAppBar;

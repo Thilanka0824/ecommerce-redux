@@ -6,8 +6,8 @@ import GlobalLayout from "./layouts/GlobalLayout";
 import ErrorPage from "./components/ErrorPage";
 import Login from "./components/Login";
 import Album from "./components/Products";
-import Blog from "./components/About";
-import RecipeReviewCard from "./components/About";
+
+
 
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
           element: <Login />,
         },
         {
-          path: "products", // The path to match
+          path: "design packages", // The path to match
           element: <Album />,
         },
        
@@ -41,7 +41,7 @@ function App() {
 
   return (
     <>
-      <RouterProvider router={router} />
+      <RouterProvider router={router}/>
     </>
   );
 }

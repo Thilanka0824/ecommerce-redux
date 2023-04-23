@@ -9,9 +9,9 @@ function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary">
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
+      <Link color="inherit" href="/">
+        Lucky Shrub
+      </Link>{"/"}
       {new Date().getFullYear()}
       {"."}
     </Typography>
@@ -32,19 +32,20 @@ export default function StickyFooter() {
       <Box
         component="footer"
         sx={{
-          py: 3,
-          px: 2,
-          mt: "auto",
+          py: 3, // py is shorthand for padding-top and padding-bottom
+          px: 2, // px is shorthand for padding-left and padding-right
+          mt: "auto", // mt is shorthand for margin-top
           backgroundColor: (theme) =>
             theme.palette.mode === "light"
-              ? theme.palette.grey[200]
+              ? theme.palette.primary.extraDark
               : theme.palette.grey[800],
               borderTop: "15px solid #000000",
         }}
       >
-        <Container maxWidth="sm">
-          <Typography variant="body1">
-            My sticky footer can be found here.
+        <Container maxWidth="lg">
+          <Typography variant="h4"
+          >
+            Outdoor living, reimagined
           </Typography>
           <Copyright />
         </Container>

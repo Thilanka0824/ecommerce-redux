@@ -13,6 +13,10 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../redux/userSlice";
+import { validator } from "../lib/validator";
+import { ThemeContext } from "@emotion/react";
+
+
 
 const buttonStyleBlack = {
   color: "white",
@@ -40,12 +44,10 @@ const buttonStyleWhite = {
 };
 
 export default function Register() {
-
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user)
+  const user = useSelector((state) => state.user);
 
   const handleSubmit = (event) => {
-
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
@@ -55,6 +57,17 @@ export default function Register() {
       email: data.get("email"),
       password: data.get("password"),
     });
+    let userOBJ = {
+      firstname: data.get("firstName"),
+      lastname: data.get("lastName"),
+      username: data.get("username"),
+      email: data.get("email"),
+      password: data.get("password"),
+    };
+
+    userOBJ.password !== data.get("password1") &&
+      alert("Passwords do not match");
+    validator(userOBJ);
 
     dispatch(registerUser({
       firstname: data.get("firstName"),
@@ -76,7 +89,7 @@ export default function Register() {
           alignItems: "center",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+        <Avatar sx={{ m: 1, bgcolor: "#000000" }}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
@@ -106,7 +119,7 @@ export default function Register() {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField  
+              <TextField
                 required
                 fullWidth
                 id="username"
@@ -136,7 +149,17 @@ export default function Register() {
                 autoComplete="new-password"
               />
             </Grid>
-
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                name="password1"
+                label="Confirm Password"
+                type="password"
+                id="password1"
+                autoComplete="new-password"
+              />
+            </Grid>
           </Grid>
           <Button
             type="submit"

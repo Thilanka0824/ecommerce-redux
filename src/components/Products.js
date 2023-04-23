@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
 import CameraIcon from "@mui/icons-material/PhotoCamera";
@@ -15,6 +16,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Grow from "@mui/material/Grow";
 
 function Copyright() {
   return (
@@ -105,13 +107,15 @@ const dataObject = [
 ];
 // const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const buttonStyleBlack = {
-  color: "white",
-  backgroundColor: "black",
-  border: "1px solid transparent",
+  color: "black",
+  backgroundColor: "white",
+  border: "1px solid black",
+  borderRadius: "25px",
+  mb: 1,
   ":hover": {
-    backgroundColor: "transparent",
+    backgroundColor: "#4E5A44",
     borderColor: "black",
-    color: "black",
+    color: "white",
   },
 };
 const buttonStyleWhite = {
@@ -128,22 +132,28 @@ const buttonStyleWhite = {
 const theme = createTheme();
 
 export default function Album() {
+  const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setChecked(true), 100);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
-      {/* <AppBar position="relative">
-        <Toolbar>
-          <CameraIcon sx={{ mr: 2 }} />
-          <Typography variant="h6" color="inherit" noWrap>
-            Album layout
-          </Typography>
-        </Toolbar>
-      </AppBar> */}
-      <main>
+      <CssBaseline />
+      <main style={{ backgroundColor: "#F7f5f4", marginTop: -20 }}>
+        {" "}
+        {/* change this marginTop once i figure out how to make the background fill the entire container  */}
         {/* Hero unit */}
         <Box
           sx={{
-            bgcolor: "background.paper",
-            pt: 8,
+            // backgroundColor: "",
+            mt: 0,
+            pt: 8, //pt i
             pb: 6,
           }}
         >
@@ -158,7 +168,7 @@ export default function Album() {
               Landscape Design Packages
             </Typography>
             <Typography
-              variant="h5"
+              variant="h6"
               align="center"
               color="text.secondary"
               paragraph
@@ -168,22 +178,6 @@ export default function Album() {
               or planning a complete outdoor transformation, we have a package
               or you!
             </Typography>
-            <Stack
-              sx={{ pt: 4 }}
-              direction="row"
-              spacing={2}
-              justifyContent="center"
-            >
-              <Button variant="contained" sx={buttonStyleWhite}>
-                Main call to action
-              </Button>
-              <Button variant="outlined" sx={buttonStyleBlack}>
-                Secondary action
-              </Button>
-              <Button variant="outlined" sx={buttonStyleWhite}>
-                Tertiary action
-              </Button>
-            </Stack>
           </Container>
         </Box>
         <Container sx={{ py: 8 }} maxWidth="xl">
@@ -191,78 +185,65 @@ export default function Album() {
           <Grid container spacing={4}>
             {dataObject.map((item, index) => (
               <Grid item key={index} xs={12} sm={6} md={4}>
-                <Card
-                  sx={{
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <Box
+                <Grow in={checked}>
+                  <Card
                     sx={{
-                      position: "relative",
-                      paddingBottom: "56.25%",
-                      height: 0,
-                      overflow: "hidden",
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      backgroundColor: "#ffffff",
+                      borderBottomLeftRadius: "25px",
+                      borderBottomRightRadius: "25px",
                     }}
                   >
-                    <CardMedia
-                      component="img"
+                    <Box
                       sx={{
-                        width: "100%",
-                        height: "100%",
-                        position: "absolute",
-                        objectFit: "cover",
+                        position: "relative",
+                        paddingBottom: "75%",
+                        height: 0,
+                        overflow: "hidden",
                       }}
-                      image={item.image}
-                      alt={item.title}
-                    />
-                  </Box>
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {item.title}
-                    </Typography>
-                    <Typography>{item.description}</Typography>
-                  </CardContent>
-                  <CardActions>
-                    {item.contact ? (
-                      <Button
-                        variant="outlined"
-                        size="large"
+                    >
+                      <CardMedia
+                        component="img"
                         sx={{
-                          color: "white",
-                          backgroundColor: "black",
-                          border: "1px solid transparent",
-                          ":hover": {
-                            backgroundColor: "transparent",
-                            borderColor: "black",
-                            color: "black",
-                          },
+                          width: "100%",
+                          height: "100%",
+                          position: "absolute",
+                          objectFit: "cover",
                         }}
-                        onClick={item.contact}
-                      >
-                        {item.price}
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="outlined"
-                        size="large"
-                        sx={{
-                          color: "white",
-                          backgroundColor: "black",
-                          border: "1px solid transparent",
-                          ":hover": {
-                            backgroundColor: "transparent",
-                            borderColor: "black",
-                            color: "black",
-                          },
-                        }}
-                      >
-                        Starting at {item.price}
-                      </Button>
-                    )}
-                  </CardActions>
-                </Card>
+                        image={item.image}
+                        alt={item.title}
+                      />
+                    </Box>
+                    <CardContent sx={{ flexGrow: 1, justifyContent: "center", textAlign: "center" }}>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {item.title}
+                      </Typography>
+                      <Typography>{item.description}</Typography>
+                    </CardContent>
+                    <CardActions sx={{ justifyContent: "center" }}>
+                      {item.contact ? (
+                        <Button
+                          variant="outlined"
+                          size="large"
+                          sx={buttonStyleBlack}
+                          onClick={item.contact}
+                        >
+                          {item.price}
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="outlined"
+                          size="large"
+                          sx={buttonStyleBlack}
+                        >
+                          Starting at {item.price}
+                        </Button>
+                      )}
+                    </CardActions>
+                  </Card>
+                </Grow>
               </Grid>
             ))}
           </Grid>
